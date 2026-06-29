@@ -42,7 +42,7 @@ export function ProfileDetailPage() {
   if (!loaded) {
     return (
       <Layout title={`@${username}`}>
-        <p className="text-gray-400">Loading...</p>
+        <p className="text-[var(--text)]/60">Loading...</p>
       </Layout>
     );
   }
@@ -50,10 +50,10 @@ export function ProfileDetailPage() {
   if (!profileData) {
     return (
       <Layout title={`@${username}`}>
-        <p className="text-red-600 mb-4">
+        <p className="text-[var(--danger)] mb-4">
           Could not load profile details for {username}
         </p>
-        <Link to="/" className="text-blue-600 underline">
+        <Link to="/" className="text-[var(--accent)] underline">
           Back to search
         </Link>
       </Layout>
@@ -64,7 +64,7 @@ export function ProfileDetailPage() {
 
   return (
     <Layout title={user.fullname}>
-      <Link to="/" className="text-sm text-blue-600 mb-4 inline-block">
+      <Link to="/" className="text-sm mb-4 inline-block text-[var(--accent)]">
         ← Back to search
       </Link>
 
@@ -78,22 +78,22 @@ export function ProfileDetailPage() {
             @{user.username}
             <VerifiedBadge verified={user.is_verified} />
           </h2>
-          <p className="text-gray-600">{user.fullname}</p>
-          <p className="text-xs text-gray-400 mt-1">Platform: {platform}</p>
+          <p className="text-[var(--text)]/80">{user.fullname}</p>
+          <p className="text-xs mt-1 text-[var(--text)]/60">Platform: {platform}</p>
 
           {user.description && (
-            <p className="mt-3 text-sm text-gray-700">{user.description}</p>
+            <p className="mt-3 text-sm text-[var(--text)]/80">{user.description}</p>
           )}
 
           <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
             <div className="border p-2 rounded">
-              <div className="text-gray-500">Followers</div>
+              <div className="text-[var(--text)]/60">Followers</div>
               <div className="font-semibold">
                 {formatFollowersDetail(user.followers)}
               </div>
             </div>
             <div className="border p-2 rounded">
-              <div className="text-gray-500">Engagement Rate</div>
+              <div className="text-[var(--text)]/60">Engagement Rate</div>
               <div className="font-semibold">
                 {user.engagement_rate !== undefined
                   ? (user.engagement_rate * 10000).toFixed(2) + "%"
@@ -102,13 +102,13 @@ export function ProfileDetailPage() {
             </div>
             {user.posts_count !== undefined && (
               <div className="border p-2 rounded">
-                <div className="text-gray-500">Posts</div>
+                <div className="text-[var(--text)]/60">Posts</div>
                 <div className="font-semibold">{user.posts_count}</div>
               </div>
             )}
             {user.avg_likes !== undefined && (
               <div className="border p-2 rounded">
-                <div className="text-gray-500">Avg Likes</div>
+                <div className="text-[var(--text)]/60">Avg Likes</div>
                 <div className="font-semibold">
                   {formatFollowersDetail(user.avg_likes)}
                 </div>
@@ -116,13 +116,13 @@ export function ProfileDetailPage() {
             )}
             {user.avg_comments !== undefined && (
               <div className="border p-2 rounded">
-                <div className="text-gray-500">Avg Comments</div>
+                <div className="text-[var(--text)]/60">Avg Comments</div>
                 <div className="font-semibold">{user.avg_comments}</div>
               </div>
             )}
             {user.avg_views !== undefined && user.avg_views > 0 && (
               <div className="border p-2 rounded">
-                <div className="text-gray-500">Avg Views</div>
+                <div className="text-[var(--text)]/60">Avg Views</div>
                 <div className="font-semibold">
                   {formatFollowersDetail(user.avg_views)}
                 </div>
@@ -130,7 +130,7 @@ export function ProfileDetailPage() {
             )}
             {user.engagements !== undefined && (
               <div className="border p-2 rounded">
-                <div className="text-gray-500">Engagements</div>
+                <div className="text-[var(--text)]/60">Engagements</div>
                 <div className="font-semibold">
                   {formatEngagementRate(user.engagement_rate)}
                 </div>
@@ -142,7 +142,7 @@ export function ProfileDetailPage() {
             <a
               href={user.url}
               target="_blank"
-              className="inline-block mt-4 text-blue-600 text-sm"
+              className="inline-block mt-4 text-[var(--accent)] text-sm"
             >
               View on platform →
             </a>
@@ -152,7 +152,7 @@ export function ProfileDetailPage() {
           {/* TODO: candidates must implement Add to List feature */}
           <button
             disabled
-            className="block mt-4 px-4 py-2 bg-gray-300 text-gray-500 rounded cursor-not-allowed"
+            className="block mt-4 px-4 py-2 rounded border border-[var(--border)] bg-[var(--panel)] text-[var(--text)] cursor-not-allowed"
           >
             Add to List
           </button>

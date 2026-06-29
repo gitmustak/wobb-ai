@@ -31,23 +31,21 @@ export function ProfileCard({
   return (
     <div
       onClick={handleClick}
-      className="flex items-center gap-3 p-3 border border-gray-300 mb-2 cursor-pointer hover:bg-gray-50 w-[700px]"
+      className="flex items-center gap-3 p-3 mb-2 w-[700px] cursor-pointer rounded-lg border bg-[var(--surface)] border-[var(--border)] transition duration-150 hover:bg-[var(--panel)]"
       data-search={searchQuery}
     >
-      <img src={profile.picture} className="w-12 h-12 rounded-full" />
+      <img src={profile.picture} className="w-12 h-12 rounded-full border border-[var(--border)]" />
       <div className="text-left flex-1">
         <div className="font-bold">
           @{profile.username}
           <VerifiedBadge verified={profile.is_verified} />
         </div>
-        <div className="text-sm text-gray-600">{profile.fullname}</div>
+        <div className="text-sm text-[var(--text)]/75">{profile.fullname}</div>
         <div className="text-sm">{formatFollowersLocal(profile.followers)}</div>
       </div>
-      {/* TODO: candidates must implement Add to List feature */}
-      {/* TODO: candidates must implement Add to List feature */}
       <button
         disabled
-        className="px-3 py-1 bg-gray-300 text-gray-500 text-sm rounded cursor-not-allowed"
+        className="px-3 py-1 rounded text-sm border border-[var(--border)] bg-[var(--panel)] text-[var(--text)] cursor-not-allowed"
         onClick={(e) => e.stopPropagation()}
       >
         Add to List

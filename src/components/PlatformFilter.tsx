@@ -22,8 +22,10 @@ export function PlatformFilter({
             key={p}
             type="button"
             onClick={() => onChange(p)}
-            className={`px-4 py-2 border rounded ${
-              selected === p ? "bg-gray-800 text-white" : "bg-white text-gray-800"
+            className={`px-4 py-2 rounded border transition-colors duration-150 ${
+              selected === p
+                ? "bg-[var(--accent)] text-white border-[var(--accent-border)]"
+                : "bg-[var(--surface)] text-[var(--text)] border-[var(--border)]"
             }`}
           >
             {getPlatformLabel(p)}
@@ -35,7 +37,7 @@ export function PlatformFilter({
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
         placeholder="Search by username or name..."
-        className="w-full max-w-md border px-3 py-2 rounded"
+        className="w-full max-w-md rounded border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-[var(--text)]"
       />
     </div>
   );
