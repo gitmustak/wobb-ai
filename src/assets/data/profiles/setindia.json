@@ -1,5 +1,4 @@
 {
-  "cached": true,
   "data": {
     "success": true,
     "user_profile": {
@@ -8,10 +7,9 @@
       "username": "setindia",
       "handle": "SETIndia",
       "url": "https://www.youtube.com/channel/UCpEhnqL0y41EpW2TvWAHD7Q",
-      "picture": "https://yt3.googleusercontent.com/eu051krrRNQMMi5h6ynfnvhFJzxzSKulJQ42g5v72MQ9Bvv8KdpNIa6yM-0iGpnDgSF0itAD=s480-c-k-c0x00ffffff-no-rj",
+      "picture": "https://yt3.googleusercontent.com/vmmZsYmryt238vqck4KAYf69gOSu22ZfqVE3rwT1tYz4hr68xl7crIUK7kghQgR6RiB9IlQ5mQ=s160-c-k-c0x00ffffff-no-rj",
       "fullname": "SET India",
       "is_verified": true,
-      "is_hidden": false,
       "followers": 178000000,
       "engagements": 357,
       "engagement_rate": 2.0056179775280897e-06,

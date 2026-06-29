@@ -1,5 +1,4 @@
 {
-  "cached": true,
   "data": {
     "success": true,
     "user_profile": {
@@ -8,10 +7,9 @@
       "username": "leomessi",
       "handle": "leomessi",
       "url": "https://www.instagram.com/leomessi/",
-      "picture": "https://imgp.sptds.icu/v2?mb0KwpL92uYofJiSjDn1%2F6peL1lBwv3s%2BUvShHERlDZ%2Fuc3eREMYRmlucP5lauWcv6msIdJyXoX4InVT7yxdOsz4KE9uiowYNvq28rF0o9UXettqidCaKTJ5EaTYrNIbrOPQt%2BBH8xfdE2dL1avFgg%3D%3D",
+      "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-178_%28cropped_2%29.jpg/330px-Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-178_%28cropped_2%29.jpg",
       "fullname": "Leo Messi",
       "is_verified": true,
-      "is_hidden": false,
       "followers": 504251028,
       "engagements": 3462136,
       "engagement_rate": 0.00686589775281529,

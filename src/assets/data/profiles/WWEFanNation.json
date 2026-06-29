@@ -1,5 +1,4 @@
 {
-  "cached": true,
   "data": {
     "success": true,
     "user_profile": {
@@ -11,7 +10,6 @@
       "picture": "https://yt3.googleusercontent.com/ytc/AIdro_kRzpOO6EOnWYXSBHEhJft2_uVXk2uIjCWVJSAlAOCUOdgc=s480-c-k-c0x00ffffff-no-rj",
       "fullname": "WWE",
       "is_verified": true,
-      "is_hidden": false,
       "followers": 105000000,
       "engagements": 15179,
       "engagement_rate": 0.00014456190476190477,

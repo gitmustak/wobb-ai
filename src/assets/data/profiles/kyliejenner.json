@@ -1,5 +1,4 @@
 {
-  "cached": true,
   "data": {
     "success": true,
     "user_profile": {
@@ -8,10 +7,9 @@
       "username": "kyliejenner",
       "handle": "kyliejenner",
       "url": "https://www.instagram.com/kyliejenner/",
-      "picture": "https://imgp.sptds.icu/v2?mb0KwpL92uYofJiSjDn1%2F6peL1lBwv3s%2BUvShHERlDbi%2FzCyzJZ6fg43%2BYylAG3qU9IHUr9IjyPjlrZFWjLnxqoc%2FkAWmZPskfobrJMaRRydFJEk1zghbcXnXQJlx7gogNlJUwVYqIiahjW32e%2BqWA%3D%3D",
+      "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Kylie_Jenner1_%28cropped%29.png/330px-Kylie_Jenner1_%28cropped%29.png",
       "fullname": "Kylie",
       "is_verified": true,
-      "is_hidden": false,
       "followers": 396278529,
       "engagements": 2288558,
       "engagement_rate": 0.005775124899587986,

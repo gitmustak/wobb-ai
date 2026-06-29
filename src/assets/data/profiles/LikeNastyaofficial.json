@@ -1,5 +1,4 @@
 {
-  "cached": true,
   "data": {
     "success": true,
     "user_profile": {
@@ -11,7 +10,6 @@
       "picture": "https://yt3.googleusercontent.com/ytc/AIdro_kj6ASR_jV8XSSGF_SSD4hUBJInCWwWRlR2mxEcwGVQW4s=s480-c-k-c0x00ffffff-no-rj",
       "fullname": "Like Nastya",
       "is_verified": true,
-      "is_hidden": false,
       "followers": 121000000,
       "engagements": 66098,
       "engagement_rate": 0.0005462644628099173,

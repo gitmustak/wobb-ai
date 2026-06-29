@@ -1,5 +1,4 @@
 {
-  "cached": true,
   "data": {
     "success": true,
     "user_profile": {
@@ -8,10 +7,9 @@
       "username": "PewDiePie",
       "handle": "PewDiePie",
       "url": "https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw",
-      "picture": "https://yt3.googleusercontent.com/5oUY3tashyxfqsjO5SGhjT4dus8FkN9CsAHwXWISFrdPYii1FudD4ICtLfuCw6-THJsJbgoY=s480-c-k-c0x00ffffff-no-rj",
+      "picture": "https://yt3.googleusercontent.com/vik8mAiwHQbXiFyKfZ3__p55_VBdGvwxPpuPJBBwdbF0PjJxikXhrP-C3nLQAMAxGNd_-xQCIg=s160-c-k-c0x00ffffff-no-rj",
       "fullname": "PewDiePie",
       "is_verified": true,
-      "is_hidden": false,
       "followers": 110000000,
       "engagements": 144945,
       "engagement_rate": 0.001317681818181818,

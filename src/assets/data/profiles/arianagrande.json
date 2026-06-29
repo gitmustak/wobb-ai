@@ -1,5 +1,4 @@
 {
-  "cached": true,
   "data": {
     "success": true,
     "user_profile": {
@@ -8,10 +7,9 @@
       "username": "arianagrande",
       "handle": "arianagrande",
       "url": "https://www.instagram.com/arianagrande/",
-      "picture": "https://imgp.sptds.icu/v2?mb0KwpL92uYofJiSjDn1%2F6peL1lBwv3s%2BUvShHERlDYEJpPTTZOdwDEdj3qpQOUit3I9aeOO7GAWMnzHrelk7H8SloQcp0XfJYhm427melrR0jOsMA6ofEFCoAjoORu%2BgNlJUwVYqIiahjW32e%2BqWA%3D%3D",
+      "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Ariana_Grande_promoting_Wicked_%282024%29.jpg/330px-Ariana_Grande_promoting_Wicked_%282024%29.jpg",
       "fullname": "Ariana Grande",
       "is_verified": true,
-      "is_hidden": false,
       "followers": 376495998,
       "engagements": 1836553,
       "engagement_rate": 0.004878014666174486,

@@ -73,7 +73,7 @@ export function ProfileDetailPage() {
   return (
     <Layout title={user.fullname}>
       <Link
-        to="/"
+        to={`/?platform=${platform}`}
         className="inline-flex items-center gap-1 text-[12px] font-medium text-[var(--muted)] hover:text-[var(--text)] transition-colors"
       >
         ← Back to search

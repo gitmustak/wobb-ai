@@ -1,5 +1,4 @@
 {
-  "cached": true,
   "data": {
     "success": true,
     "user_profile": {
@@ -8,10 +7,9 @@
       "username": "beyonce",
       "handle": "beyonce",
       "url": "https://www.instagram.com/beyonce/",
-      "picture": "https://imgp.sptds.icu/v2?mb0KwpL92uYofJiSjDn1%2F6peL1lBwv3s%2BUvShHERlDathq8InmpwK5fXf5yRd0lvnV6kXMg9T8WDFXsLWVUxb418ESqW6JyZQq5hGjpxWrSZPGEl6oWqla4%2FlCc7YrEVWwq5%2BhsabX0Nc9aXCBbcsw%3D%3D",
+      "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Beyonc%C3%A9_-_Tottenham_Hotspur_Stadium_-_1st_June_2023_%2810_of_118%29_%2852946364598%29_%28best_crop%29.jpg/330px-Beyonc%C3%A9_-_Tottenham_Hotspur_Stadium_-_1st_June_2023_%2810_of_118%29_%2852946364598%29_%28best_crop%29.jpg",
       "fullname": "Beyoncé",
       "is_verified": true,
-      "is_hidden": false,
       "followers": 314791999,
       "engagements": 1965658,
       "engagement_rate": 0.006244307371992641,
