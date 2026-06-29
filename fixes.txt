@@ -1,5 +1,7 @@
-Bug Fixes & Quality Improvements
-==================================
+Bug Fixes, Quality Improvements & Feature Changes
+==================================================
+
+--- Bug Fixes ---
 
 1. Engagement rate calculation (ProfileDetailPage.tsx)
    - Bug: engagement_rate was multiplied by 10000 instead of 100, inflating displayed values 100x (e.g., showing 142.50% instead of 1.43%)
@@ -40,3 +42,109 @@ Bug Fixes & Quality Improvements
 10. Duplicate TODO comment (ProfileDetailPage.tsx)
     - Bug: the same TODO comment for "Add to List" appeared on two consecutive lines
     - Fix: removed the duplicate line
+
+--- UI Revamp ---
+
+11. Multi-column profile grid (ProfileList.tsx)
+    - Change: switched from single-column flex layout to a responsive CSS grid
+    - Grid is 1 column on mobile, 2 columns on sm, 3 columns on xl
+    - Added px-4 side padding and gap-3 between cards; removed redundant mb-2 per card
+
+12. Full UI redesign (index.css, Layout.tsx, PlatformFilter.tsx, ProfileCard.tsx, ProfileDetailPage.tsx, VerifiedBadge.tsx)
+    - index.css: reduced base font from 17px to 15px; reduced global h1 from 3.25rem to 1.75rem; introduced --muted CSS variable for secondary text; tightened letter-spacing
+    - Layout.tsx: brand name "Influencer Search" is now 10px uppercase tracking label (was text-2xl); page title h1 is 1.75rem font-semibold (was text-4xl font-bold); header is a slim top bar with a bottom border
+    - PlatformFilter.tsx: replaced individual bordered buttons with a segmented pill control (shared container with inner highlight); platform tabs and search input are side-by-side on sm+ screens
+    - ProfileCard.tsx: removed hard border in favour of hover background shift; three-level text hierarchy (username 14px semibold / fullname 13px muted / followers 12px muted); tighter avatar with object-cover
+    - ProfileDetailPage.tsx: extracted StatTile component for stat grid items (uppercase label + large value); platform shown as a small badge pill; avatar is rounded-2xl; back link is minimal text with arrow
+    - VerifiedBadge.tsx: changed from plain text "✓" character to a small filled circle badge for a more intentional look
+
+--- State Management (Zustand) ---
+
+13. Replaced React Context with Zustand for selected list state (src/store/useListStore.ts)
+    - Installed zustand package
+    - Created useListStore with persist middleware (saved to localStorage under "wobb-influencer-list")
+    - Store exposes: add(profile), remove(userId), contains(userId), clear()
+    - Duplicate profiles are silently ignored by contains() check inside add()
+
+14. Wired up "Add to List" button on profile cards (ProfileCard.tsx)
+    - Button was previously disabled and non-functional
+    - Now toggles between "+ Add" and "✓ Added" states using useListStore
+    - Button click stops propagation so it doesn't trigger card navigation
+
+15. Wired up "Add to List" button on profile detail page (ProfileDetailPage.tsx)
+    - Button was previously disabled and non-functional
+    - Now toggles between "+ Add to List" and "✓ Added to List" using useListStore
+
+16. Added "My List (N)" count to the nav header (Layout.tsx)
+    - Appears in the top-right of the header whenever the list is non-empty
+    - Useful on the profile detail page where the sidebar is not visible
+
+17. Created SelectedList sidebar component (src/components/SelectedList.tsx)
+    - Shows each selected profile with avatar, username, fullname, and a Remove button
+    - "Clear all" button in the header empties the entire list
+    - Returns null when the list is empty (no empty state rendered)
+
+18. Mounted SelectedList as a fixed overlay outside the main container (App.tsx)
+    - Rendered at the App level so it appears on all pages
+    - Positioned fixed at top-right (top: 24px, right: 24px) outside the centered #root container
+    - Width is 256px (w-64); max-height is calc(100vh - 48px) with overflow-y-auto so it stays within the viewport on long lists
+
+--- Add to List Feature Completion ---
+
+19. Fixed rules-of-hooks violation in ProfileDetailPage.tsx
+    - Bug: useListStore() was called after three conditional early returns, meaning the hook count changed between renders — a React rules-of-hooks violation
+    - Fix: moved useListStore() to the top of the component before any early returns
+
+20. Made SelectedList entries clickable (SelectedList.tsx)
+    - Clicking the avatar or name of a profile in the sidebar navigates to that profile's detail page
+    - Platform is inferred from the stored profile URL (youtube.com / tiktok.com / instagram fallback)
+
+21. Removed data-search attribute and searchQuery prop chain (ProfileCard.tsx, ProfileList.tsx, SearchPage.tsx)
+    - data-search={searchQuery} on the card div was a leftover with no purpose
+    - Removed the searchQuery prop from ProfileCard and ProfileList since it was only used for that attribute
+
+--- Code Quality Refactor ---
+
+22. Consolidated all formatting into formatters.ts (formatters.ts, ProfileCard.tsx, ProfileDetailPage.tsx)
+    - Removed unused exports formatFollowers and formatEngagementRate
+    - Added formatCount(count, suffix?) — single function for all count display; cards pass " followers" as suffix, stat tiles pass none
+    - Added formatRate(rate) — replaces the inline (rate * 100).toFixed(2) + "%" expression that was duplicated in two places
+    - Removed formatFollowersLocal() from ProfileCard and fmt() from ProfileDetailPage
+
+23. Extracted StatTile into its own component (src/components/StatTile.tsx)
+    - StatTile was defined as a local function inside ProfileDetailPage.tsx
+    - Extracted to src/components/StatTile.tsx so it is independently importable and reusable
+
+24. Moved platform detection logic to dataHelpers.ts (dataHelpers.ts, SelectedList.tsx)
+    - platformFromUrl() was defined inside SelectedList.tsx — the wrong layer for domain logic
+    - Moved and renamed to detectPlatform(url): Platform in dataHelpers.ts; return type is now the Platform union type instead of string
+
+25. Fixed profileLoader.ts generic type (profileLoader.ts)
+    - import.meta.glob<ProfileDetailResponse> was incorrect — the glob loader returns a module object { default: T }, not the type directly
+    - Fixed to import.meta.glob<{ default: ProfileDetailResponse }> and replaced the unsafe double-cast with module.default
+
+26. Removed dead props and classes from ProfileCard and ProfileList (ProfileCard.tsx, ProfileList.tsx)
+    - onProfileClick optional prop was never passed by any parent; removed from both ProfileCard and ProfileList
+    - group Tailwind class on the card div was unused — no group-* utilities were applied anywhere
+
+--- Performance Optimizations ---
+
+27. Memoized profile derivation in SearchPage (SearchPage.tsx)
+    - extractProfiles(platform) and filterProfiles(allProfiles, searchQuery) ran on every render, including renders triggered by unrelated causes (e.g. Zustand store updates from list changes)
+    - Wrapped both in useMemo with their actual dependencies ([platform] and [allProfiles, searchQuery]); filtering now only re-runs when the query or platform actually changes
+
+28. Granular Zustand selectors in ProfileCard (ProfileCard.tsx)
+    - Before: const { add, remove, contains } = useListStore() subscribed every card to the entire store; adding one profile caused all 10 cards to re-render
+    - After: three separate selectors — s => s.add and s => s.remove always return stable function references (never trigger re-renders); s => s.list.some(p => p.user_id === profile.user_id) returns a boolean and only triggers a re-render when this specific card's membership status changes
+
+29. React.memo on ProfileCard (ProfileCard.tsx)
+    - Wrapped the component in React.memo so it skips re-renders when the parent ProfileList re-renders but the card's profile and platform props have not changed (e.g. typing in the search box while filtered results stay the same)
+
+30. React.memo on ListRow + stable onRemove reference (SelectedList.tsx)
+    - Before: onRemove={() => remove(profile.user_id)} created a new function reference on every render, making memo useless
+    - After: onRemove is now the store's remove function directly (a stable reference); ListRow calls onRemove(profile.user_id) internally; with memo, existing rows no longer re-render when a new profile is added to the list
+    - SelectedList itself now uses granular selectors (s => s.list, s => s.remove, s => s.clear) instead of subscribing to the whole store
+
+31. Lazy image loading on all profile pictures (ProfileCard.tsx, SelectedList.tsx, ProfileDetailPage.tsx)
+    - Added loading="lazy" to every img tag; without this, all external profile picture URLs were fetched simultaneously on mount, competing for network bandwidth
+    - Browser now fetches images only as they scroll into view

@@ -1,29 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --text: #302f2c;
-  --text-h: #302f2c;
-  --bg: #efede3;
-  --surface: #f6f1e5;
-  --panel: #efe9dd;
-  --border: #dbd5c9;
-  --code-bg: #f6f1e5;
-  --accent: #302f2c;
+  --text: #1c1b18;
+  --text-h: #1c1b18;
+  --bg: #edeae0;
+  --surface: #f7f4ed;
+  --panel: #edeae0;
+  --border: #ddd9cf;
+  --muted: #9b9690;
+  --code-bg: #f7f4ed;
+  --accent: #1c1b18;
   --danger: #8f2f33;
-  --accent-bg: rgba(48, 47, 44, 0.08);
-  /* --accent-border: rgba(48, 47, 44, 0.18); */
-  --social-bg: rgba(233, 226, 214, 0.35);
-  --shadow:
-    rgba(0, 0, 0, 0.08) 0 20px 40px -18px, rgba(15, 23, 42, 0.05) 0 1px 2px;
+  --accent-bg: rgba(28, 27, 24, 0.07);
 
   --sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --heading: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
-  font: 17px/1.65 var(--sans);
-  letter-spacing: 0.02em;
+  font: 15px/1.6 var(--sans);
+  letter-spacing: 0.01em;
   color: var(--text);
-  background: #efede3;
+  background: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -34,8 +31,7 @@ html,
 body,
 #root {
   min-height: 100vh;
-  background-color: #efede3;
-  /* color: #302f2c; */
+  background-color: var(--bg);
 }
 
 html {
@@ -51,62 +47,44 @@ body {
 }
 
 #root {
-  width: min(1126px, 100%);
+  width: min(1180px, 100%);
   margin: 0 auto;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-  padding: 24px;
-  /* background: var(--bg); */
-  border: none;
-  outline: none;
+  padding: 20px;
 }
 
-h1,
-h2,
-h3,
-h4 {
+h1, h2, h3, h4 {
   font-family: var(--heading);
   color: var(--text-h);
   margin: 0;
 }
 
 h1 {
-  font-size: 3.25rem;
-  line-height: 1.05;
-  letter-spacing: -0.04em;
-  margin-bottom: 0.5rem;
+  font-size: 1.75rem;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  font-weight: 600;
 }
 
 h2 {
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   line-height: 1.2;
-  margin-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 h3 {
-  font-size: 1.25rem;
+  font-size: 1rem;
   line-height: 1.3;
+  font-weight: 500;
 }
 
 p {
-  margin: 0 0 1.25rem;
-  color: #5f667b;
+  margin: 0 0 1rem;
+  color: var(--muted);
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 0.5rem;
-  color: var(--text-h);
+a {
+  transition: opacity 0.15s;
 }
-
-code {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  padding: 0.35rem 0.65rem;
-  background: var(--code-bg);
-}
-

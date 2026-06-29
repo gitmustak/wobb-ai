@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { Platform } from "@/types";
 import { Layout } from "@/components/Layout";
 import { PlatformFilter } from "@/components/PlatformFilter";
@@ -9,15 +9,14 @@ export function SearchPage() {
   const [platform, setPlatform] = useState<Platform>("instagram");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const allProfiles = extractProfiles(platform);
-  const filtered = filterProfiles(allProfiles, searchQuery);
+  const allProfiles = useMemo(() => extractProfiles(platform), [platform]);
+  const filtered = useMemo(
+    () => filterProfiles(allProfiles, searchQuery),
+    [allProfiles, searchQuery]
+  );
 
   return (
     <Layout title="Find Influencers">
-      <p className="mb-4 text-sm text-[var(--text)]/75">
-        Browse top creators across social platforms
-      </p>
-
       <PlatformFilter
         selected={platform}
         onChange={(p) => {
@@ -28,15 +27,11 @@ export function SearchPage() {
         onSearchChange={setSearchQuery}
       />
 
-      <p className="mb-2 text-xs text-[var(--text)]/60">
-        Showing {filtered.length} of {allProfiles.length} on {platform}
+      <p className="text-[12px] text-[var(--muted)]">
+        {filtered.length} of {allProfiles.length} creators on {platform}
       </p>
 
-      <ProfileList
-        profiles={filtered}
-        platform={platform}
-        searchQuery={searchQuery}
-      />
+      <ProfileList profiles={filtered} platform={platform} />
     </Layout>
   );
 }

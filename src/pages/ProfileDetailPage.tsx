@@ -1,24 +1,22 @@
 import { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/Layout";
+import { StatTile } from "@/components/StatTile";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import type { FullUserProfile, ProfileDetailResponse } from "@/types";
 import { loadProfileByUsername } from "@/utils/profileLoader";
-
-function formatFollowersDetail(count: number) {
-  if (count >= 1000000) return (count / 1000000).toFixed(2) + "M";
-  if (count >= 1000) return (count / 1000).toFixed(1) + "K";
-  return String(count);
-}
+import { formatCount, formatRate } from "@/utils/formatters";
+import { useListStore } from "@/store/useListStore";
 
 export function ProfileDetailPage() {
   const { username } = useParams<{ username: string }>();
   const [searchParams] = useSearchParams();
   const platform = searchParams.get("platform") || "unknown";
-  const [profileData, setProfileData] = useState<ProfileDetailResponse | null>(
-    null
-  );
+  const [profileData, setProfileData] = useState<ProfileDetailResponse | null>(null);
   const [loaded, setLoaded] = useState(false);
+
+  // Called unconditionally before any early returns to satisfy rules of hooks
+  const { add, remove, contains } = useListStore();
 
   useEffect(() => {
     if (!username) return;
@@ -52,122 +50,103 @@ export function ProfileDetailPage() {
 
   if (!loaded) {
     return (
-      <Layout title={`@${username}`}>
-        <p className="text-[var(--text)]/60">Loading...</p>
+      <Layout>
+        <p className="text-[var(--muted)] text-sm">Loading…</p>
       </Layout>
     );
   }
 
   if (!profileData) {
     return (
-      <Layout title={`@${username}`}>
-        <p className="text-[var(--danger)] mb-4">
-          Could not load profile details for {username}
-        </p>
-        <Link to="/" className="text-[var(--accent)] underline">
-          Back to search
+      <Layout>
+        <p className="text-[var(--danger)] text-sm">Could not load profile for @{username}.</p>
+        <Link to="/" className="text-sm text-[var(--text)] underline underline-offset-2">
+          ← Back to search
         </Link>
       </Layout>
     );
   }
 
   const user: FullUserProfile = profileData.data.user_profile;
+  const inList = contains(user.user_id);
 
   return (
     <Layout title={user.fullname}>
-      <Link to="/" className="text-sm mb-4 inline-block text-[var(--accent)]">
+      <Link
+        to="/"
+        className="inline-flex items-center gap-1 text-[12px] font-medium text-[var(--muted)] hover:text-[var(--text)] transition-colors"
+      >
         ← Back to search
       </Link>
 
-      <div className="flex gap-6 items-start text-left max-w-2xl mx-auto">
+      <div className="flex gap-5 items-start">
         <img
           src={user.picture}
           alt={user.fullname}
-          className="w-24 h-24 rounded-full border"
+          loading="lazy"
+          className="w-20 h-20 rounded-2xl object-cover shrink-0 border border-[var(--border)]"
         />
-        <div className="flex-1">
-          <h2 className="text-xl font-bold">
-            @{user.username}
+
+        <div className="flex-1 min-w-0 pt-1">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <h2 className="text-xl font-semibold tracking-tight">@{user.username}</h2>
             <VerifiedBadge verified={user.is_verified} />
-          </h2>
-          <p className="text-[var(--text)]/80">{user.fullname}</p>
-          <p className="text-xs mt-1 text-[var(--text)]/60">Platform: {platform}</p>
+          </div>
+          <p className="text-sm text-[var(--muted)] mt-0.5 mb-0">{user.fullname}</p>
+          <span className="inline-block mt-1.5 text-[11px] font-medium tracking-wider uppercase px-2 py-0.5 rounded-md bg-[var(--panel)] border border-[var(--border)] text-[var(--muted)]">
+            {platform}
+          </span>
 
           {user.description && (
-            <p className="mt-3 text-sm text-[var(--text)]/80">{user.description}</p>
+            <p className="mt-3 text-sm text-[var(--muted)] leading-relaxed mb-0 max-w-lg">
+              {user.description}
+            </p>
           )}
-
-          <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
-            <div className="border p-2 rounded">
-              <div className="text-[var(--text)]/60">Followers</div>
-              <div className="font-semibold">
-                {formatFollowersDetail(user.followers)}
-              </div>
-            </div>
-            <div className="border p-2 rounded">
-              <div className="text-[var(--text)]/60">Engagement Rate</div>
-              <div className="font-semibold">
-                {user.engagement_rate !== undefined
-                  ? (user.engagement_rate * 100).toFixed(2) + "%"
-                  : "N/A"}
-              </div>
-            </div>
-            {user.posts_count !== undefined && (
-              <div className="border p-2 rounded">
-                <div className="text-[var(--text)]/60">Posts</div>
-                <div className="font-semibold">{user.posts_count}</div>
-              </div>
-            )}
-            {user.avg_likes !== undefined && (
-              <div className="border p-2 rounded">
-                <div className="text-[var(--text)]/60">Avg Likes</div>
-                <div className="font-semibold">
-                  {formatFollowersDetail(user.avg_likes)}
-                </div>
-              </div>
-            )}
-            {user.avg_comments !== undefined && (
-              <div className="border p-2 rounded">
-                <div className="text-[var(--text)]/60">Avg Comments</div>
-                <div className="font-semibold">{user.avg_comments}</div>
-              </div>
-            )}
-            {user.avg_views !== undefined && user.avg_views > 0 && (
-              <div className="border p-2 rounded">
-                <div className="text-[var(--text)]/60">Avg Views</div>
-                <div className="font-semibold">
-                  {formatFollowersDetail(user.avg_views)}
-                </div>
-              </div>
-            )}
-            {user.engagements !== undefined && (
-              <div className="border p-2 rounded">
-                <div className="text-[var(--text)]/60">Engagements</div>
-                <div className="font-semibold">
-                  {formatFollowersDetail(user.engagements)}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {user.url && (
-            <a
-              href={user.url}
-              target="_blank"
-              className="inline-block mt-4 text-[var(--accent)] text-sm"
-            >
-              View on platform →
-            </a>
-          )}
-
-          {/* TODO: candidates must implement Add to List feature */}
-          <button
-            disabled
-            className="block mt-4 px-4 py-2 rounded border border-[var(--border)] bg-[var(--panel)] text-[var(--text)] cursor-not-allowed"
-          >
-            Add to List
-          </button>
         </div>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+        <StatTile label="Followers" value={formatCount(user.followers)} />
+        <StatTile label="Engagement Rate" value={formatRate(user.engagement_rate)} />
+        {user.posts_count !== undefined && (
+          <StatTile label="Posts" value={String(user.posts_count)} />
+        )}
+        {user.avg_likes !== undefined && (
+          <StatTile label="Avg Likes" value={formatCount(user.avg_likes)} />
+        )}
+        {user.avg_comments !== undefined && (
+          <StatTile label="Avg Comments" value={formatCount(user.avg_comments)} />
+        )}
+        {user.avg_views !== undefined && user.avg_views > 0 && (
+          <StatTile label="Avg Views" value={formatCount(user.avg_views)} />
+        )}
+        {user.engagements !== undefined && (
+          <StatTile label="Engagements" value={formatCount(user.engagements)} />
+        )}
+      </div>
+
+      <div className="flex items-center gap-3 pt-1">
+        {user.url && (
+          <a
+            href={user.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[13px] font-medium text-[var(--text)] underline underline-offset-2 hover:opacity-60 transition-opacity"
+          >
+            View on platform →
+          </a>
+        )}
+
+        <button
+          onClick={() => inList ? remove(user.user_id) : add(user)}
+          className={`px-4 py-2 rounded-lg text-[13px] font-medium border transition-colors ${
+            inList
+              ? "border-[var(--text)]/30 text-[var(--text)] bg-[var(--text)]/5"
+              : "border-[var(--border)] text-[var(--muted)] bg-transparent hover:border-[var(--text)]/30 hover:text-[var(--text)]"
+          }`}
+        >
+          {inList ? "✓ Added to List" : "+ Add to List"}
+        </button>
       </div>
     </Layout>
   );
