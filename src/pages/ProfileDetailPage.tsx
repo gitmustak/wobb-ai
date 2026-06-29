@@ -84,6 +84,7 @@ export function ProfileDetailPage() {
           src={user.picture}
           alt={user.fullname}
           loading="lazy"
+          onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullname)}&size=160&background=e2e8f0&color=64748b&bold=true`; }}
           className="w-20 h-20 rounded-2xl object-cover shrink-0 border border-[var(--border)]"
         />
 

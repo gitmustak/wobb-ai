@@ -24,6 +24,7 @@ const ListRow = memo(function ListRow({ profile, onRemove }: ListRowProps) {
         src={profile.picture}
         alt={profile.fullname}
         loading="lazy"
+        onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.fullname)}&size=64&background=e2e8f0&color=64748b&bold=true`; }}
         onClick={handleNavigate}
         className="w-8 h-8 rounded-full object-cover shrink-0 cursor-pointer"
       />

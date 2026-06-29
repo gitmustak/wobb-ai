@@ -30,6 +30,7 @@ export const ProfileCard = memo(function ProfileCard({ profile, platform }: Prof
         src={profile.picture}
         alt={profile.fullname}
         loading="lazy"
+        onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.fullname)}&size=88&background=e2e8f0&color=64748b&bold=true`; }}
         className="w-11 h-11 rounded-full shrink-0 object-cover"
       />
 
