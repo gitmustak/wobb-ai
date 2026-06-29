@@ -3,7 +3,6 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import type { FullUserProfile, ProfileDetailResponse } from "@/types";
-import { formatEngagementRate } from "@/utils/formatters";
 import { loadProfileByUsername } from "@/utils/profileLoader";
 
 function formatFollowersDetail(count: number) {
@@ -23,11 +22,23 @@ export function ProfileDetailPage() {
 
   useEffect(() => {
     if (!username) return;
+    let cancelled = false;
 
-    loadProfileByUsername(username).then((data) => {
-      setProfileData(data);
-      setLoaded(true);
-    });
+    loadProfileByUsername(username)
+      .then((data) => {
+        if (!cancelled) {
+          setProfileData(data);
+          setLoaded(true);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setProfileData(null);
+          setLoaded(true);
+        }
+      });
+
+    return () => { cancelled = true; };
   }, [username]);
 
   if (!username) {
@@ -71,6 +82,7 @@ export function ProfileDetailPage() {
       <div className="flex gap-6 items-start text-left max-w-2xl mx-auto">
         <img
           src={user.picture}
+          alt={user.fullname}
           className="w-24 h-24 rounded-full border"
         />
         <div className="flex-1">
@@ -96,7 +108,7 @@ export function ProfileDetailPage() {
               <div className="text-[var(--text)]/60">Engagement Rate</div>
               <div className="font-semibold">
                 {user.engagement_rate !== undefined
-                  ? (user.engagement_rate * 10000).toFixed(2) + "%"
+                  ? (user.engagement_rate * 100).toFixed(2) + "%"
                   : "N/A"}
               </div>
             </div>
@@ -132,7 +144,7 @@ export function ProfileDetailPage() {
               <div className="border p-2 rounded">
                 <div className="text-[var(--text)]/60">Engagements</div>
                 <div className="font-semibold">
-                  {formatEngagementRate(user.engagement_rate)}
+                  {formatFollowersDetail(user.engagements)}
                 </div>
               </div>
             )}
@@ -148,7 +160,6 @@ export function ProfileDetailPage() {
             </a>
           )}
 
-          {/* TODO: candidates must implement Add to List feature */}
           {/* TODO: candidates must implement Add to List feature */}
           <button
             disabled

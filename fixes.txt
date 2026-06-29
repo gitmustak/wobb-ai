@@ -1,0 +1,42 @@
+Bug Fixes & Quality Improvements
+==================================
+
+1. Engagement rate calculation (ProfileDetailPage.tsx)
+   - Bug: engagement_rate was multiplied by 10000 instead of 100, inflating displayed values 100x (e.g., showing 142.50% instead of 1.43%)
+   - Fix: changed multiplier from 10000 to 100
+
+2. Engagements stat card showing wrong value (ProfileDetailPage.tsx)
+   - Bug: the "Engagements" card label showed the engagement rate percentage via formatEngagementRate() instead of the actual engagement count
+   - Fix: replaced formatEngagementRate(user.engagement_rate) with formatFollowersDetail(user.engagements)
+
+3. Dead clickCount state and ignored username argument (SearchPage.tsx)
+   - Bug: handleProfileClick incremented a clickCount state that was never rendered or used, and silently ignored the username argument passed to it
+   - Fix: removed clickCount state and the handleProfileClick function entirely; ProfileCard handles navigation independently
+
+4. Unhandled promise rejection causing infinite loading spinner (ProfileDetailPage.tsx)
+   - Bug: loadProfileByUsername().then(...) had no .catch(), so any thrown error would leave loaded as false and show the spinner forever
+   - Fix: added .catch() that sets profileData to null and loaded to true, showing the "could not load" error state instead
+
+5. Missing useEffect cleanup causing stale state updates (ProfileDetailPage.tsx)
+   - Bug: if the user navigated away before the profile loaded, setProfileData/setLoaded would be called on an unmounted component
+   - Fix: added a cancelled flag returned as cleanup from useEffect; state setters are no-ops if cancelled is true
+
+6. Unused SearchBar component (SearchBar.tsx)
+   - Bug: SearchBar.tsx was never imported or used anywhere; PlatformFilter contains its own inline search input
+   - Fix: deleted the file
+
+7. Hardcoded fixed width on ProfileCard (ProfileCard.tsx)
+   - Bug: w-[700px] caused cards to overflow on screens narrower than ~720px with no responsive fallback
+   - Fix: replaced w-[700px] with w-full
+
+8. Missing alt attributes on img tags (ProfileCard.tsx, ProfileDetailPage.tsx)
+   - Bug: both profile image tags lacked alt attributes, failing accessibility standards
+   - Fix: added alt={profile.fullname} and alt={user.fullname} respectively
+
+9. filterProfiles ignoring the handle field (dataHelpers.ts)
+   - Bug: search only matched against username and fullname; YouTube profiles use a separate handle field (e.g., "MrBeast") that was never checked
+   - Fix: added handle to the filter check using p.handle?.toLowerCase().includes(normalizedQuery)
+
+10. Duplicate TODO comment (ProfileDetailPage.tsx)
+    - Bug: the same TODO comment for "Add to List" appeared on two consecutive lines
+    - Fix: removed the duplicate line

@@ -5,7 +5,7 @@ interface ProfileListProps {
   profiles: UserProfileSummary[];
   platform: Platform;
   searchQuery: string;
-  onProfileClick: (username: string) => void;
+  onProfileClick?: (username: string) => void;
 }
 
 export function ProfileList({
