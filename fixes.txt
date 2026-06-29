@@ -148,3 +148,47 @@ Bug Fixes, Quality Improvements & Feature Changes
 31. Lazy image loading on all profile pictures (ProfileCard.tsx, SelectedList.tsx, ProfileDetailPage.tsx)
     - Added loading="lazy" to every img tag; without this, all external profile picture URLs were fetched simultaneously on mount, competing for network bandwidth
     - Browser now fetches images only as they scroll into view
+
+--- Sort & Filter ---
+
+32. Added sort controls to search results (PlatformFilter.tsx, SearchPage.tsx, dataHelpers.ts, types/index.ts)
+    - Added SortKey ("followers" | "avg_likes" | "avg_comments" | "engagement_rate") and SortDir ("asc" | "desc") types
+    - Added avg_likes? and avg_comments? as optional fields to UserProfileSummary
+    - Added sortProfiles() to dataHelpers.ts; sorts a copy of the array and reverses for ascending direction
+    - PlatformFilter now renders a second row below the search bar: a native <select> dropdown for the sort field and a direction toggle button (↑ Asc / ↓ Desc)
+    - Default sort is followers descending
+
+33. Search state preserved on back navigation (src/store/useSearchStore.ts, SearchPage.tsx)
+    - Moved platform, searchQuery, sortBy, and sortDir out of local useState into a Zustand store (no persistence — memory only)
+    - Zustand store lives at module scope, so it survives React unmount/remount cycles caused by back navigation
+    - State is fully restored when returning to the search page from a profile detail page
+
+--- Navbar & Footer ---
+
+34. Added Navbar component (src/components/Navbar.tsx, Layout.tsx)
+    - Sticky top bar with a logo mark + "Wobb" brand name on the left
+    - "Find Influencers" nav link highlighted when on the root route
+    - "My List" link with a live count badge (hidden when list is empty)
+    - Replaced the old inline <header> inside Layout.tsx
+
+35. Added Footer component (src/components/Footer.tsx, Layout.tsx)
+    - Bottom bar with auto-computed copyright year and Privacy / Terms / Support placeholder links
+    - Layout is now a flex column so the footer always sticks to the bottom regardless of content height
+    - SelectedList panel offset updated from top-6 to top-20 in App.tsx to clear the sticky navbar
+
+--- Light / Dark Theme ---
+
+36. Added light/dark theme with toggle (src/store/useThemeStore.ts, index.css, App.tsx, Navbar.tsx)
+    - Created useThemeStore (Zustand, persisted to localStorage under "wobb-theme"); initialises from OS prefers-color-scheme on first visit
+    - index.css: added [data-theme="dark"] block overriding all 10 CSS variables with a warm dark palette matching the existing temperature
+    - App.tsx: useEffect writes data-theme attribute to document.documentElement whenever the store value changes; all components update automatically via CSS variable cascade
+    - Navbar: moon icon shown in light mode, sun icon shown in dark mode; clicking toggles the store
+
+--- Animated Background ---
+
+37. Added animated background blobs (index.css, Layout.tsx)
+    - Three large blurred blobs (480 px / 420 px / 360 px, blur 88 px) positioned at top-left, bottom-right, and bottom-centre of the layout card
+    - Three independent CSS keyframe animations (blob-drift-1/2/3) slowly translate and scale each blob; infinite alternate easing gives smooth back-and-forth motion with no jump at the loop point
+    - Colours: warm amber (#c8922a), terracotta (#b87060), sage (#7a9e78) — matching the existing palette
+    - Opacities are 7–9% in light mode and 9–12% in dark mode so they read as ambient glow without competing with content
+    - Blob wrapper uses aria-hidden, pointer-events-none, and -z-10 inside an isolate parent so blobs stay behind all UI and are ignored by assistive technology
