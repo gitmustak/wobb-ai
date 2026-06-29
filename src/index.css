@@ -55,6 +55,20 @@ body {
   padding: 20px;
 }
 
+[data-theme="dark"] {
+  --text: #f0ede6;
+  --text-h: #f7f4ed;
+  --bg: #181714;
+  --surface: #1f1e1b;
+  --panel: #272521;
+  --border: #333029;
+  --muted: #7a7672;
+  --code-bg: #1f1e1b;
+  --accent: #f0ede6;
+  --danger: #c05a5e;
+  --accent-bg: rgba(240, 237, 230, 0.08);
+}
+
 h1, h2, h3, h4 {
   font-family: var(--heading);
   color: var(--text-h);

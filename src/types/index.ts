@@ -1,4 +1,6 @@
 export type Platform = "instagram" | "youtube" | "tiktok";
+export type SortKey = "followers" | "avg_likes" | "avg_comments" | "engagement_rate";
+export type SortDir = "asc" | "desc";
 
 export interface UserProfileSummary {
   user_id: string;
@@ -12,6 +14,8 @@ export interface UserProfileSummary {
   engagement_rate?: number;
   handle?: string;
   avg_views?: number;
+  avg_likes?: number;
+  avg_comments?: number;
 }
 
 export interface SearchAccount {

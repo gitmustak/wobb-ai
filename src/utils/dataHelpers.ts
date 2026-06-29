@@ -1,7 +1,7 @@
 import instagramData from "@/assets/data/search/instagram.json";
 import youtubeData from "@/assets/data/search/youtube.json";
 import tiktokData from "@/assets/data/search/tiktok.json";
-import type { Platform, SearchData, UserProfileSummary } from "@/types";
+import type { Platform, SearchData, SortDir, SortKey, UserProfileSummary } from "@/types";
 
 const platformData: Record<Platform, SearchData> = {
   instagram: instagramData as SearchData,
@@ -30,6 +30,19 @@ export function filterProfiles(
     const matchHandle = p.handle?.toLowerCase().includes(normalizedQuery) ?? false;
     return matchUsername || matchFullname || matchHandle;
   });
+}
+
+export function sortProfiles(
+  profiles: UserProfileSummary[],
+  sortBy: SortKey,
+  sortDir: SortDir
+): UserProfileSummary[] {
+  const sorted = [...profiles].sort((a, b) => {
+    const aVal = (a[sortBy] as number) ?? 0;
+    const bVal = (b[sortBy] as number) ?? 0;
+    return bVal - aVal;
+  });
+  return sortDir === "asc" ? sorted.reverse() : sorted;
 }
 
 export const PLATFORMS: Platform[] = ["instagram", "youtube", "tiktok"];
