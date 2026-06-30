@@ -7,6 +7,7 @@ import type { FullUserProfile, ProfileDetailResponse } from "@/types";
 import { loadProfileByUsername } from "@/utils/profileLoader";
 import { formatCount, formatRate } from "@/utils/formatters";
 import { useListStore } from "@/store/useListStore";
+import { getCrossPlatformLinks } from "@/utils/crossPlatformLinks";
 
 export function ProfileDetailPage() {
   const { username } = useParams<{ username: string }>();
@@ -69,6 +70,7 @@ export function ProfileDetailPage() {
 
   const user: FullUserProfile = profileData.data.user_profile;
   const inList = contains(user.user_id);
+  const crossPlatformLinks = getCrossPlatformLinks(user.username);
 
   return (
     <Layout title={user.fullname}>
@@ -104,6 +106,25 @@ export function ProfileDetailPage() {
             </p>
           )}
         </div>
+
+        {crossPlatformLinks.length > 0 && (
+          <div className="shrink-0 w-56 rounded-xl border border-[var(--border)] bg-[var(--panel)] p-4 flex flex-col gap-3">
+            <p className="text-xs font-medium text-[var(--muted)] uppercase tracking-wider">Also on</p>
+            <div className="flex flex-col gap-2">
+              {crossPlatformLinks.map((link) => (
+                <Link
+                  key={link.username}
+                  to={`/profile/${link.username}?platform=${link.platform}`}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-sm text-[var(--text)] hover:border-[var(--text)]/30 hover:bg-[var(--panel)] transition-colors"
+                >
+                  <span className="text-xs font-medium tracking-wider uppercase text-[var(--muted)]">{link.platform}</span>
+                  <span className="font-medium truncate">@{link.username}</span>
+                  <span className="ml-auto text-[var(--muted)]">→</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
