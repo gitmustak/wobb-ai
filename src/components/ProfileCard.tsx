@@ -64,10 +64,10 @@ export const ProfileCard = memo(function ProfileCard({ profile, platform }: Prof
       {/* Mobile: plus/check icon at top-right corner */}
       <button
         aria-label={inList ? "Remove from list" : "Add to list"}
-        className={`sm:hidden absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full border text-[15px] font-black transition-colors ${
+        className={`sm:hidden absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full border text-[18px] font-thin transition-colors ${
           inList
-            ? "border-[var(--highlight)]/40 text-[var(--highlight)] bg-[var(--highlight-bg)]"
-            : "border-[var(--border)] text-[var(--muted)] bg-transparent"
+            ? "border-[var(--highlight)]/40 text-black bg-[var(--highlight-bg)]"
+            : "border-[var(--border)] text-black bg-transparent"
         }`}
         onClick={(e) => {
           e.stopPropagation();
