@@ -4,6 +4,7 @@ import { PlatformFilter } from "@/components/PlatformFilter";
 import { ProfileList } from "@/components/ProfileList";
 import { extractProfiles, filterProfiles, sortProfiles } from "@/utils/dataHelpers";
 import { useSearchStore } from "@/store/useSearchStore";
+import { useListStore } from "@/store/useListStore";
 
 export function SearchPage() {
   const platform = useSearchStore((s) => s.platform);
@@ -15,12 +16,13 @@ export function SearchPage() {
   const setSortBy = useSearchStore((s) => s.setSortBy);
   const setSortDir = useSearchStore((s) => s.setSortDir);
 
+  const listCount = useListStore((s) => s.list.length);
   const allProfiles = useMemo(() => extractProfiles(platform), [platform]);
   const filtered = useMemo(() => filterProfiles(allProfiles, searchQuery), [allProfiles, searchQuery]);
   const sorted = useMemo(() => sortProfiles(filtered, sortBy, sortDir), [filtered, sortBy, sortDir]);
 
   return (
-    <Layout title="Find Influencers" mobileListPadding>
+    <Layout title="Find Influencers" mobileListPadding={listCount > 0}>
       <PlatformFilter
         selected={platform}
         onChange={setPlatform}

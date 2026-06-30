@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useListStore } from "@/store/useListStore";
 import { useThemeStore } from "@/store/useThemeStore";
 
@@ -22,8 +22,7 @@ function MoonIcon() {
 
 export function Navbar() {
   const count = useListStore((s) => s.list.length);
-  const { pathname } = useLocation();
-  const theme = useThemeStore((s) => s.theme);
+const theme = useThemeStore((s) => s.theme);
   const toggle = useThemeStore((s) => s.toggle);
   const [showError, setShowError] = useState(false);
   const errorTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -52,18 +51,7 @@ export function Navbar() {
       </Link>
 
       <div className="flex items-center gap-5">
-        <Link
-          to="/"
-          className={`text-[13px] font-medium transition-colors ${
-            pathname === "/"
-              ? "text-[var(--text)]"
-              : "text-[var(--muted)] hover:text-[var(--text)]"
-          }`}
-        >
-          Find Influencers
-        </Link>
-
-        <div className="relative">
+<div className="relative">
           <button
             type="button"
             onClick={handleMyListClick}
