@@ -64,17 +64,27 @@ export const ProfileCard = memo(function ProfileCard({ profile, platform }: Prof
       {/* Mobile: plus/check icon at top-right corner */}
       <button
         aria-label={inList ? "Remove from list" : "Add to list"}
-        className={`sm:hidden absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full border text-[18px] font-thin transition-colors ${
+        className={`sm:hidden absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full border text-[13px] text-black transition-colors ${
           inList
-            ? "border-[var(--highlight)]/40 text-black bg-[var(--highlight-bg)]"
-            : "border-[var(--border)] text-black bg-transparent"
+            ? "border-[var(--highlight)]/40 bg-[var(--highlight-bg)]"
+            : "border-[var(--border)] bg-transparent"
         }`}
         onClick={(e) => {
           e.stopPropagation();
           inList ? remove(profile.user_id) : add(profile);
         }}
       >
-        {inList ? "✓" : "+"}
+        {inList ? (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="12" fill="currentColor"/>
+            <path d="M6.5 12.5l3.5 3.5 7-7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        ) : (
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M20.66 17A10 10 0 1 0 17 20.66" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            <path d="M12 8v8M8 12h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+        )}
       </button>
 
       {/* Desktop: full text button */}
