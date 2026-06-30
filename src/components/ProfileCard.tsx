@@ -47,7 +47,7 @@ export const ProfileCard = memo(function ProfileCard({ profile, platform }: Prof
         <div className="text-[12px] text-[var(--muted)]/70 mt-0.5 flex items-center gap-3 min-w-0 overflow-hidden">
           <div className="flex flex-col items-center leading-tight">
             <span>{formatCount(profile.followers)}</span>
-            <span>followers</span>
+            <span>{platform === "youtube" ? "subscribers" : "followers"}</span>
           </div>
           {profile.engagements != null && profile.engagements > 0 && (
             <>

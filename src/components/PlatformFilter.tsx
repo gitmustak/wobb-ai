@@ -22,12 +22,14 @@ function PlatformIcon({ platform }: { platform: string }) {
   return null;
 }
 
-const SORT_OPTIONS: { value: SortKey; label: string }[] = [
-  { value: "followers", label: "Followers" },
-  // { value: "avg_likes", label: "Avg. Likes" },       // TODO: re-enable when avg_likes data is available
-  // { value: "avg_comments", label: "Avg. Comments" }, // TODO: re-enable when avg_comments data is available
-  { value: "engagement_rate", label: "Engagement Rate" },
-];
+function getSortOptions(platform: Platform): { value: SortKey; label: string }[] {
+  return [
+    { value: "followers", label: platform === "youtube" ? "Subscribers" : "Followers" },
+    // { value: "avg_likes", label: "Avg. Likes" },       // TODO: re-enable when avg_likes data is available
+    // { value: "avg_comments", label: "Avg. Comments" }, // TODO: re-enable when avg_comments data is available
+    { value: "engagement_rate", label: "Engagement Rate" },
+  ];
+}
 
 interface PlatformFilterProps {
   selected: Platform;
@@ -63,7 +65,8 @@ export function PlatformFilter({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const selectedLabel = SORT_OPTIONS.find((o) => o.value === sortBy)?.label ?? "Sort";
+  const sortOptions = getSortOptions(selected);
+  const selectedLabel = sortOptions.find((o) => o.value === sortBy)?.label ?? "Sort";
 
   return (
     <div className="flex flex-col gap-3">
@@ -114,7 +117,7 @@ export function PlatformFilter({
 
           {open && (
             <div className="absolute left-0 top-full mt-1 z-50 min-w-[160px] rounded-lg border border-[var(--border)] bg-[var(--surface)] shadow-lg overflow-hidden">
-              {SORT_OPTIONS.map((opt) => (
+              {sortOptions.map((opt) => (
                 <button
                   key={opt.value}
                   type="button"
