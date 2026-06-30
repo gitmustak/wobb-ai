@@ -192,3 +192,96 @@ Bug Fixes, Quality Improvements & Feature Changes
     - Colours: warm amber (#c8922a), terracotta (#b87060), sage (#7a9e78) — matching the existing palette
     - Opacities are 7–9% in light mode and 9–12% in dark mode so they read as ambient glow without competing with content
     - Blob wrapper uses aria-hidden, pointer-events-none, and -z-10 inside an isolate parent so blobs stay behind all UI and are ignored by assistive technology
+
+--- UI/UX Revamp (Session 2) ---
+
+38. Commented out unavailable sort options (PlatformFilter.tsx)
+    - "Avg. Likes" and "Avg. Comments" sort options are commented out with TODO notes to re-enable when data becomes available
+    - Only "Followers / Subscribers" and "Engagement Rate" are active
+
+39. Cross-platform profile linking — MrBeast (crossPlatformLinks.ts, ProfileDetailPage.tsx)
+    - Created src/utils/crossPlatformLinks.ts with a LINKS map connecting MrBeast6000 (YouTube) ↔ mrbeast (TikTok)
+    - ProfileDetailPage shows an "Also on" panel listing linked platform profiles; each entry is a clickable Link to that profile
+
+40. My List empty-state error toast (Navbar.tsx)
+    - Clicking "My List" when the list is empty shows a toast notification ("No profiles added to your list yet.")
+    - Toast auto-dismisses after 2.5 seconds; timer is reset if the button is clicked again before it expires
+    - Toast is positioned fixed at top-right so it doesn't shift layout
+
+41. Responsive "Also on" panel (ProfileDetailPage.tsx)
+    - On mobile the "Also on" panel stacks below the profile header (flex-col); on sm+ it floats to the right (sm:flex-row with w-56 shrink-0)
+
+42. "Read more" description toggle (ProfileDetailPage.tsx)
+    - Long descriptions are clamped to 3 lines by default
+    - A "Read more" / "Read less" button appears when the description exceeds 120 characters
+
+43. Custom sort dropdown replacing native <select> (PlatformFilter.tsx)
+    - Replaced the native <select> element with a fully custom dropdown using useState + useRef + mousedown outside-click handler
+    - Fixes mobile positioning issues where the native select menu opened off-screen or at the wrong location
+
+44. My List mobile bottom sheet (App.tsx, SelectedList.tsx, Layout.tsx)
+    - On mobile: SelectedList is fixed to the bottom of the screen (bottom-0, full width, max-h-[50vh])
+    - On desktop/tablet: remains fixed to the top-right as a sidebar panel
+    - Layout accepts mobileListPadding prop; SearchPage passes it when the list is non-empty to prevent content hiding behind the bottom sheet
+
+45. Collapse toggle for My List (SelectedList.tsx)
+    - Header row is a button that toggles collapsed state
+    - Mobile: down arrow when expanded (collapses to bar), up arrow when collapsed (expands up)
+    - Desktop: down arrow when expanded, right arrow when collapsed (panel slides to side)
+    - List rows and "Clear all" are hidden when collapsed
+
+46. Platform-specific brand colors (platformColors.ts, ProfileCard.tsx, ProfileDetailPage.tsx, StatTile.tsx)
+    - Created src/utils/platformColors.ts: Instagram → #aa2cc0, YouTube → #FE2C55, TikTok → #25F4EE, default → var(--highlight)
+    - ProfileCard card border, ProfileDetailPage platform badge + "Also on" panel border + StatTile borders all use the platform color via inline style={{ borderColor }}
+    - Global highlight color set to #447BBE for all non-platform UI elements (badges, buttons, list panel border)
+
+47. Glassmorphism effects (index.css, Navbar.tsx, ProfileCard.tsx, StatTile.tsx, ProfileDetailPage.tsx)
+    - Added .glass utility class: semi-transparent background + backdrop-filter blur(16px) saturate(160%)
+    - Added .glass-hover:hover variant for interactive cards
+    - Applied to: Navbar, ProfileCard, StatTile, ProfileDetailPage "Also on" panel
+
+48. Profile picture border removed (ProfileCard.tsx, ProfileDetailPage.tsx)
+    - Removed the colored border ring that was previously applied to profile images on both card and detail views
+
+49. "Find Influencers" link removed from Navbar (Navbar.tsx)
+    - Removed the navigation link; the page title and logo serve as the navigation anchor
+
+50. Platform icons added to tab buttons (PlatformFilter.tsx)
+    - Added PlatformIcon SVG component with inline SVG paths for Instagram, YouTube, and TikTok
+    - Icons render at w-3.5 h-3.5 using currentColor (monochrome); icon appears to the left of the label
+    - Buttons use inline-flex items-center justify-center for proper alignment
+
+51. Engagements shown on profile cards (ProfileCard.tsx)
+    - Each card now shows followers and engagements (when available) as stacked number + label columns
+    - YouTube cards show "subscribers" instead of "followers"
+    - Stats row has overflow-hidden to prevent bleeding into the add button
+
+52. Mobile add button replaced with icon (ProfileCard.tsx)
+    - On mobile: full "+ Add" / "✓ Added" button is hidden; replaced with a small absolute-positioned icon at the card's top-right corner
+    - Not-added state: open-arc circle + plus SVG (platform color)
+    - Added state: filled circle + white checkmark SVG (platform color)
+    - On desktop (sm+): original text button is shown as before
+
+53. Prompt font applied globally (index.html, index.css)
+    - Added Google Fonts preconnect + stylesheet links for the Prompt typeface (all weights 100–900, italic variants)
+    - Replaced Helvetica Neue with 'Prompt' in --sans and --heading CSS variables
+
+54. Platform tab bar made scrollable (PlatformFilter.tsx, index.css)
+    - Wrapped tab buttons in an overflow-x-auto scrollbar-hide container so they scroll horizontally on narrow screens (e.g. iPhone SE) instead of overflowing
+    - Added .scrollbar-hide CSS utility to hide the scrollbar while preserving scroll functionality
+    - Tab bar is centered on mobile (justify-center) and left-aligned on sm+ (sm:justify-start)
+    - Button text shrinks to text-xs on mobile, text-sm on sm+
+
+55. Dynamic sort label per platform (PlatformFilter.tsx)
+    - Replaced static SORT_OPTIONS array with getSortOptions(platform) function
+    - Instagram / TikTok show "Followers" in the sort dropdown; YouTube shows "Subscribers"
+
+56. My List panel opacity increased on mobile (SelectedList.tsx)
+    - Replaced glass (semi-transparent) with bg-[var(--panel)] (fully opaque solid) so the bottom sheet is readable over the card list
+
+57. Favicon replaced (public/favicon.svg)
+    - Replaced the previous logo with a network graph icon (central node with 5 connected satellite nodes)
+    - Drawn as inline SVG with thick rounded strokes in dark ink, matching the site's palette
+
+58. Page title updated (index.html)
+    - Changed <title> from "assignment" to "Find Influencers"
