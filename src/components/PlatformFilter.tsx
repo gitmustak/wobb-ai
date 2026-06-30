@@ -68,22 +68,24 @@ export function PlatformFilter({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-        <div className="inline-flex rounded-lg bg-[var(--panel)] p-1 gap-0.5 shrink-0">
-          {PLATFORMS.map((p) => (
-            <button
-              key={p}
-              type="button"
-              onClick={() => onChange(p)}
-              className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-150 ${
-                selected === p
-                  ? "bg-[var(--highlight)] text-white shadow-sm"
-                  : "text-[var(--muted)] hover:text-[var(--text)]"
-              }`}
-            >
-              {getPlatformLabel(p)}
-              <PlatformIcon platform={p} />
-            </button>
-          ))}
+        <div className="overflow-x-auto scrollbar-hide shrink-0">
+          <div className="inline-flex rounded-lg bg-[var(--panel)] p-1 gap-0.5">
+            {PLATFORMS.map((p) => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => onChange(p)}
+                className={`inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-150 ${
+                  selected === p
+                    ? "bg-[var(--highlight)] text-white shadow-sm"
+                    : "text-[var(--muted)] hover:text-[var(--text)]"
+                }`}
+              >
+                <PlatformIcon platform={p} />
+                {getPlatformLabel(p)}
+              </button>
+            ))}
+          </div>
         </div>
 
         <input

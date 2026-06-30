@@ -64,11 +64,8 @@ export const ProfileCard = memo(function ProfileCard({ profile, platform }: Prof
       {/* Mobile: plus/check icon at top-right corner */}
       <button
         aria-label={inList ? "Remove from list" : "Add to list"}
-        className={`sm:hidden absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full border text-[13px] text-black transition-colors ${
-          inList
-            ? "border-[var(--highlight)]/40 bg-[var(--highlight-bg)]"
-            : "border-[var(--border)] bg-transparent"
-        }`}
+        style={{ color: platformColor }}
+        className="sm:hidden absolute top-2 right-2 w-6 h-6 flex items-center justify-center bg-transparent"
         onClick={(e) => {
           e.stopPropagation();
           inList ? remove(profile.user_id) : add(profile);
