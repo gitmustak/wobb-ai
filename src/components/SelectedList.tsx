@@ -51,7 +51,7 @@ export function SelectedList() {
   if (list.length === 0) return null;
 
   return (
-    <div className="glass rounded-t-xl sm:rounded-xl border border-[var(--highlight)] overflow-hidden shadow-sm pt-1 pb-8 sm:pt-0 sm:pb-0">
+    <div className="bg-[var(--panel)] rounded-t-xl sm:rounded-xl border border-[var(--highlight)] overflow-hidden shadow-lg pt-1 pb-8 sm:pt-0 sm:pb-0">
       <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)]">
         <button
           type="button"
@@ -69,16 +69,16 @@ export function SelectedList() {
             {/* Mobile: up chevron when expanded, down when collapsed */}
             <path
               className="sm:hidden"
-              d={collapsed ? "M2 5l5 5 5-5" : "M2 9l5-5 5 5"}
+              d={collapsed ? "M2 9l5-5 5 5" : "M2 5l5 5 5-5"}
               stroke="currentColor"
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
-            {/* Desktop: left chevron when expanded, right when collapsed */}
+            {/* Desktop: down when expanded, right when collapsed */}
             <path
               className="hidden sm:block"
-              d={collapsed ? "M5 2l5 5-5 5" : "M9 2l-5 5 5 5"}
+              d={collapsed ? "M5 2l5 5-5 5" : "M2 5l5 5 5-5"}
               stroke="currentColor"
               strokeWidth="1.5"
               strokeLinecap="round"
