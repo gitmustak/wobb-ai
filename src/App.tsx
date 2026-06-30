@@ -19,7 +19,12 @@ function App() {
         <Route path="/profile/:username" element={<ProfileDetailPage />} />
       </Routes>
 
-      <div className="fixed top-20 right-6 w-64 max-h-[calc(100vh-88px)] overflow-y-auto z-50">
+      {/* Mobile: bottom sheet — Desktop: top-right sidebar */}
+      <div className="
+        fixed z-50
+        bottom-0 left-0 right-0 max-h-[50vh] overflow-y-auto
+        sm:bottom-auto sm:left-auto sm:top-20 sm:right-6 sm:w-64 sm:max-h-[calc(100vh-88px)]
+      ">
         <SelectedList />
       </div>
     </BrowserRouter>

@@ -18,7 +18,7 @@ export function Layout({ children, title }: LayoutProps) {
         </div>
       )}
 
-      <main className="flex-1 px-8 py-6 space-y-5">{children}</main>
+      <main className="flex-1 px-8 py-6 space-y-5 pb-[52vh] sm:pb-6">{children}</main>
 
       <Footer />
     </div>
