@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import type { Platform, SortDir, SortKey } from "@/types";
 import { PLATFORMS, getPlatformLabel } from "@/utils/dataHelpers";
 
@@ -29,6 +30,21 @@ export function PlatformFilter({
   sortDir,
   onSortDirChange,
 }: PlatformFilterProps) {
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const selectedLabel = SORT_OPTIONS.find((o) => o.value === sortBy)?.label ?? "Sort";
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -60,17 +76,38 @@ export function PlatformFilter({
 
       <div className="flex items-center gap-2">
         <span className="text-xs text-[var(--muted)] shrink-0">Sort by</span>
-        <select
-          value={sortBy}
-          onChange={(e) => onSortByChange(e.target.value as SortKey)}
-          className="rounded-lg border border-[var(--border)] bg-[var(--panel)] px-3 py-1.5 text-sm text-[var(--text)] focus:outline-none focus:border-[var(--text)]/25 transition-colors cursor-pointer"
-        >
-          {SORT_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
+
+        <div ref={dropdownRef} className="relative">
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            className="flex items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--panel)] px-3 py-1.5 text-sm text-[var(--text)] hover:bg-[var(--surface)] transition-colors cursor-pointer"
+          >
+            {selectedLabel}
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" className={`transition-transform ${open ? "rotate-180" : ""}`}>
+              <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
+          {open && (
+            <div className="absolute left-0 top-full mt-1 z-50 min-w-[160px] rounded-lg border border-[var(--border)] bg-[var(--surface)] shadow-lg overflow-hidden">
+              {SORT_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => { onSortByChange(opt.value); setOpen(false); }}
+                  className={`w-full text-left px-3 py-2 text-sm transition-colors ${
+                    sortBy === opt.value
+                      ? "bg-[var(--panel)] text-[var(--text)] font-medium"
+                      : "text-[var(--muted)] hover:bg-[var(--panel)] hover:text-[var(--text)]"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
         <button
           type="button"
