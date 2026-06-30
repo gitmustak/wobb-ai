@@ -68,7 +68,7 @@ export function PlatformFilter({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-        <div className="overflow-x-auto scrollbar-hide shrink-0">
+        <div className="overflow-x-auto scrollbar-hide shrink-0 flex justify-center sm:justify-start">
           <div className="inline-flex rounded-lg bg-[var(--panel)] p-1 gap-0.5">
             {PLATFORMS.map((p) => (
               <button
