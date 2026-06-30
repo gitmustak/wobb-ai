@@ -56,7 +56,7 @@ export function PlatformFilter({
               onClick={() => onChange(p)}
               className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-150 ${
                 selected === p
-                  ? "bg-[var(--surface)] text-[var(--text)] shadow-sm"
+                  ? "bg-[var(--highlight)] text-white shadow-sm"
                   : "text-[var(--muted)] hover:text-[var(--text)]"
               }`}
             >
@@ -98,7 +98,7 @@ export function PlatformFilter({
                   onClick={() => { onSortByChange(opt.value); setOpen(false); }}
                   className={`w-full text-left px-3 py-2 text-sm transition-colors ${
                     sortBy === opt.value
-                      ? "bg-[var(--panel)] text-[var(--text)] font-medium"
+                      ? "bg-[var(--highlight-bg)] text-[var(--highlight)] font-medium"
                       : "text-[var(--muted)] hover:bg-[var(--panel)] hover:text-[var(--text)]"
                   }`}
                 >

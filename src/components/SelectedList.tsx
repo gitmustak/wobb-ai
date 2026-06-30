@@ -51,7 +51,7 @@ export function SelectedList() {
   if (list.length === 0) return null;
 
   return (
-    <div className="rounded-t-xl sm:rounded-xl border border-[var(--border)] bg-[var(--panel)] overflow-hidden shadow-sm pt-1 pb-8 sm:pt-0 sm:pb-0">
+    <div className="glass rounded-t-xl sm:rounded-xl border border-[var(--highlight)] overflow-hidden shadow-sm pt-1 pb-8 sm:pt-0 sm:pb-0">
       <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)]">
         <button
           type="button"

@@ -4,6 +4,7 @@ import type { Platform, UserProfileSummary } from "@/types";
 import { VerifiedBadge } from "./VerifiedBadge";
 import { useListStore } from "@/store/useListStore";
 import { formatCount } from "@/utils/formatters";
+import { getPlatformColor } from "@/utils/platformColors";
 
 interface ProfileCardProps {
   profile: UserProfileSummary;
@@ -21,10 +22,13 @@ export const ProfileCard = memo(function ProfileCard({ profile, platform }: Prof
     s.list.some((p) => p.user_id === profile.user_id)
   );
 
+  const platformColor = getPlatformColor(platform);
+
   return (
     <div
       onClick={() => navigate(`/profile/${profile.username}?platform=${platform}`)}
-      className="flex items-center gap-3 p-3.5 w-full cursor-pointer rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--panel)] transition-colors duration-150"
+      style={{ borderColor: platformColor }}
+      className="glass glass-hover flex items-center gap-3 p-3.5 w-full cursor-pointer rounded-xl border transition-colors duration-150"
     >
       <img
         src={profile.picture}
@@ -48,7 +52,7 @@ export const ProfileCard = memo(function ProfileCard({ profile, platform }: Prof
       <button
         className={`shrink-0 px-3 py-1.5 rounded-lg text-[12px] font-medium border transition-colors ${
           inList
-            ? "border-[var(--text)]/30 text-[var(--text)] bg-[var(--text)]/5"
+            ? "border-[var(--highlight)]/40 text-[var(--highlight)] bg-[var(--highlight-bg)]"
             : "border-[var(--border)] text-[var(--muted)] bg-transparent hover:border-[var(--text)]/30 hover:text-[var(--text)]"
         }`}
         onClick={(e) => {

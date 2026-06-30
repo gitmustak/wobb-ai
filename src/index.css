@@ -10,6 +10,8 @@
   --muted: #9b9690;
   --code-bg: #f7f4ed;
   --accent: #1c1b18;
+  --highlight: #447BBE;
+  --highlight-bg: rgba(68, 123, 190, 0.08);
   --danger: #8f2f33;
   --accent-bg: rgba(28, 27, 24, 0.07);
 
@@ -31,7 +33,13 @@ html,
 body,
 #root {
   min-height: 100vh;
-  background-color: var(--bg);
+  background: linear-gradient(135deg, #ede9df 0%, #e3d9cb 50%, #e9ddd0 100%);
+}
+
+[data-theme="dark"] html,
+[data-theme="dark"] body,
+[data-theme="dark"] #root {
+  background: linear-gradient(135deg, #181714 0%, #1d1a15 50%, #1a1610 100%);
 }
 
 html {
@@ -65,6 +73,8 @@ body {
   --muted: #7a7672;
   --code-bg: #1f1e1b;
   --accent: #f0ede6;
+  --highlight: #447BBE;
+  --highlight-bg: rgba(68, 123, 190, 0.12);
   --danger: #c05a5e;
   --accent-bg: rgba(240, 237, 230, 0.08);
 }
@@ -101,4 +111,21 @@ p {
 
 a {
   transition: opacity 0.15s;
+}
+
+/* Glassmorphism utilities */
+.glass {
+  background: rgba(247, 244, 237, 0.55) !important;
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+.glass-hover:hover {
+  background: rgba(237, 234, 224, 0.78) !important;
+}
+
+[data-theme="dark"] .glass {
+  background: rgba(27, 25, 22, 0.55) !important;
+}
+[data-theme="dark"] .glass-hover:hover {
+  background: rgba(38, 36, 32, 0.78) !important;
 }

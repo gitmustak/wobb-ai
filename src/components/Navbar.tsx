@@ -37,7 +37,7 @@ export function Navbar() {
   }
 
   return (
-    <nav className="sticky top-0 z-40 flex items-center justify-between px-8 py-4 border-b border-[var(--border)] bg-[var(--surface)]/90 backdrop-blur-sm">
+    <nav className="glass sticky top-0 z-40 flex items-center justify-between px-8 py-4 border-b border-[var(--border)]">
       <Link to="/" className="flex items-center gap-2 group">
         <div className="w-7 h-7 rounded-lg bg-[var(--text)] flex items-center justify-center shrink-0">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -73,7 +73,7 @@ export function Navbar() {
           >
             My List
             {count > 0 && (
-              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[var(--text)] text-[var(--surface)] text-[10px] font-bold leading-none">
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[var(--highlight)] text-white text-[10px] font-bold leading-none">
                 {count}
               </span>
             )}

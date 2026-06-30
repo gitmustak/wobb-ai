@@ -8,6 +8,7 @@ import { loadProfileByUsername } from "@/utils/profileLoader";
 import { formatCount, formatRate } from "@/utils/formatters";
 import { useListStore } from "@/store/useListStore";
 import { getCrossPlatformLinks } from "@/utils/crossPlatformLinks";
+import { getPlatformColor } from "@/utils/platformColors";
 
 export function ProfileDetailPage() {
   const { username } = useParams<{ username: string }>();
@@ -72,6 +73,7 @@ export function ProfileDetailPage() {
   const user: FullUserProfile = profileData.data.user_profile;
   const inList = contains(user.user_id);
   const crossPlatformLinks = getCrossPlatformLinks(user.username);
+  const platformColor = getPlatformColor(platform);
 
   return (
     <Layout title={user.fullname}>
@@ -89,7 +91,7 @@ export function ProfileDetailPage() {
             alt={user.fullname}
             loading="lazy"
             onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullname)}&size=160&background=e2e8f0&color=64748b&bold=true`; }}
-            className="w-20 h-20 rounded-2xl object-cover shrink-0 border border-[var(--border)]"
+            className="w-20 h-20 rounded-2xl object-cover shrink-0"
           />
 
           <div className="flex-1 min-w-0 pt-1">
@@ -98,7 +100,7 @@ export function ProfileDetailPage() {
               <VerifiedBadge verified={user.is_verified} />
             </div>
             <p className="text-sm text-[var(--muted)] mt-0.5 mb-0">{user.fullname}</p>
-            <span className="inline-block mt-1.5 text-[11px] font-medium tracking-wider uppercase px-2 py-0.5 rounded-md bg-[var(--panel)] border border-[var(--border)] text-[var(--muted)]">
+            <span style={{ backgroundColor: platformColor, borderColor: platformColor }} className="inline-block mt-1.5 text-[11px] font-medium tracking-wider uppercase px-2 py-0.5 rounded-md border text-white">
               {platform}
             </span>
 
@@ -122,14 +124,15 @@ export function ProfileDetailPage() {
         </div>
 
         {crossPlatformLinks.length > 0 && (
-          <div className="w-full sm:w-56 sm:shrink-0 rounded-xl border border-[var(--border)] bg-[var(--panel)] p-4 flex flex-col gap-3">
+          <div style={{ borderColor: platformColor }} className="glass w-full sm:w-56 sm:shrink-0 rounded-xl border p-4 flex flex-col gap-3">
             <p className="text-xs font-medium text-[var(--muted)] uppercase tracking-wider">Also on</p>
             <div className="flex flex-col gap-2">
               {crossPlatformLinks.map((link) => (
                 <Link
                   key={link.username}
                   to={`/profile/${link.username}?platform=${link.platform}`}
-                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-sm text-[var(--text)] hover:border-[var(--text)]/30 hover:bg-[var(--panel)] transition-colors"
+                  style={{ borderColor: platformColor }}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border bg-[var(--surface)] text-sm text-[var(--text)] hover:bg-[var(--panel)] transition-colors"
                 >
                   <span className="text-xs font-medium tracking-wider uppercase text-[var(--muted)]">{link.platform}</span>
                   <span className="font-medium truncate">@{link.username}</span>
@@ -142,22 +145,22 @@ export function ProfileDetailPage() {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-        <StatTile label="Followers" value={formatCount(user.followers)} />
-        <StatTile label="Engagement Rate" value={formatRate(user.engagement_rate)} />
+        <StatTile label="Followers" value={formatCount(user.followers)} borderColor={platformColor} />
+        <StatTile label="Engagement Rate" value={formatRate(user.engagement_rate)} borderColor={platformColor} />
         {user.posts_count !== undefined && (
-          <StatTile label="Posts" value={String(user.posts_count)} />
+          <StatTile label="Posts" value={String(user.posts_count)} borderColor={platformColor} />
         )}
         {user.avg_likes !== undefined && (
-          <StatTile label="Avg Likes" value={formatCount(user.avg_likes)} />
+          <StatTile label="Avg Likes" value={formatCount(user.avg_likes)} borderColor={platformColor} />
         )}
         {user.avg_comments !== undefined && (
-          <StatTile label="Avg Comments" value={formatCount(user.avg_comments)} />
+          <StatTile label="Avg Comments" value={formatCount(user.avg_comments)} borderColor={platformColor} />
         )}
         {user.avg_views !== undefined && user.avg_views > 0 && (
-          <StatTile label="Avg Views" value={formatCount(user.avg_views)} />
+          <StatTile label="Avg Views" value={formatCount(user.avg_views)} borderColor={platformColor} />
         )}
         {user.engagements !== undefined && (
-          <StatTile label="Engagements" value={formatCount(user.engagements)} />
+          <StatTile label="Engagements" value={formatCount(user.engagements)} borderColor={platformColor} />
         )}
       </div>
 
@@ -177,7 +180,7 @@ export function ProfileDetailPage() {
           onClick={() => inList ? remove(user.user_id) : add(user)}
           className={`px-4 py-2 rounded-lg text-[13px] font-medium border transition-colors ${
             inList
-              ? "border-[var(--text)]/30 text-[var(--text)] bg-[var(--text)]/5"
+              ? "border-[var(--highlight)]/40 text-[var(--highlight)] bg-[var(--highlight-bg)]"
               : "border-[var(--border)] text-[var(--muted)] bg-transparent hover:border-[var(--text)]/30 hover:text-[var(--text)]"
           }`}
         >
