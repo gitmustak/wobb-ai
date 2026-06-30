@@ -15,6 +15,7 @@ export function ProfileDetailPage() {
   const platform = searchParams.get("platform") || "unknown";
   const [profileData, setProfileData] = useState<ProfileDetailResponse | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const [descExpanded, setDescExpanded] = useState(false);
 
   // Called unconditionally before any early returns to satisfy rules of hooks
   const { add, remove, contains } = useListStore();
@@ -81,34 +82,47 @@ export function ProfileDetailPage() {
         ← Back to search
       </Link>
 
-      <div className="flex gap-5 items-start">
-        <img
-          src={user.picture}
-          alt={user.fullname}
-          loading="lazy"
-          onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullname)}&size=160&background=e2e8f0&color=64748b&bold=true`; }}
-          className="w-20 h-20 rounded-2xl object-cover shrink-0 border border-[var(--border)]"
-        />
+      <div className="flex flex-col sm:flex-row gap-5 items-start">
+        <div className="flex gap-5 items-start flex-1 min-w-0">
+          <img
+            src={user.picture}
+            alt={user.fullname}
+            loading="lazy"
+            onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullname)}&size=160&background=e2e8f0&color=64748b&bold=true`; }}
+            className="w-20 h-20 rounded-2xl object-cover shrink-0 border border-[var(--border)]"
+          />
 
-        <div className="flex-1 min-w-0 pt-1">
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <h2 className="text-xl font-semibold tracking-tight">@{user.username}</h2>
-            <VerifiedBadge verified={user.is_verified} />
+          <div className="flex-1 min-w-0 pt-1">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <h2 className="text-xl font-semibold tracking-tight">@{user.username}</h2>
+              <VerifiedBadge verified={user.is_verified} />
+            </div>
+            <p className="text-sm text-[var(--muted)] mt-0.5 mb-0">{user.fullname}</p>
+            <span className="inline-block mt-1.5 text-[11px] font-medium tracking-wider uppercase px-2 py-0.5 rounded-md bg-[var(--panel)] border border-[var(--border)] text-[var(--muted)]">
+              {platform}
+            </span>
+
+            {user.description && (
+              <div className="mt-3 max-w-lg">
+                <p className={`text-sm text-[var(--muted)] leading-relaxed mb-0 ${descExpanded ? "" : "line-clamp-3"}`}>
+                  {user.description}
+                </p>
+                {user.description.length > 120 && (
+                  <button
+                    type="button"
+                    onClick={() => setDescExpanded((v) => !v)}
+                    className="mt-1 text-[12px] font-medium text-[var(--text)] hover:opacity-60 transition-opacity"
+                  >
+                    {descExpanded ? "Read less" : "Read more"}
+                  </button>
+                )}
+              </div>
+            )}
           </div>
-          <p className="text-sm text-[var(--muted)] mt-0.5 mb-0">{user.fullname}</p>
-          <span className="inline-block mt-1.5 text-[11px] font-medium tracking-wider uppercase px-2 py-0.5 rounded-md bg-[var(--panel)] border border-[var(--border)] text-[var(--muted)]">
-            {platform}
-          </span>
-
-          {user.description && (
-            <p className="mt-3 text-sm text-[var(--muted)] leading-relaxed mb-0 max-w-lg">
-              {user.description}
-            </p>
-          )}
         </div>
 
         {crossPlatformLinks.length > 0 && (
-          <div className="shrink-0 w-56 rounded-xl border border-[var(--border)] bg-[var(--panel)] p-4 flex flex-col gap-3">
+          <div className="w-full sm:w-56 sm:shrink-0 rounded-xl border border-[var(--border)] bg-[var(--panel)] p-4 flex flex-col gap-3">
             <p className="text-xs font-medium text-[var(--muted)] uppercase tracking-wider">Also on</p>
             <div className="flex flex-col gap-2">
               {crossPlatformLinks.map((link) => (
