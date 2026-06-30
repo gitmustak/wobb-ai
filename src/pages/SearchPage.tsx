@@ -20,7 +20,7 @@ export function SearchPage() {
   const sorted = useMemo(() => sortProfiles(filtered, sortBy, sortDir), [filtered, sortBy, sortDir]);
 
   return (
-    <Layout title="Find Influencers">
+    <Layout title="Find Influencers" mobileListPadding>
       <PlatformFilter
         selected={platform}
         onChange={setPlatform}
