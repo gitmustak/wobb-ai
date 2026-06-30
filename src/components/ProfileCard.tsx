@@ -28,7 +28,7 @@ export const ProfileCard = memo(function ProfileCard({ profile, platform }: Prof
     <div
       onClick={() => navigate(`/profile/${profile.username}?platform=${platform}`)}
       style={{ borderColor: platformColor }}
-      className="glass glass-hover flex items-center gap-3 p-3.5 w-full cursor-pointer rounded-xl border transition-colors duration-150"
+      className="relative glass glass-hover flex items-center gap-3 p-3.5 w-full cursor-pointer rounded-xl border transition-colors duration-150"
     >
       <img
         src={profile.picture}
@@ -44,19 +44,42 @@ export const ProfileCard = memo(function ProfileCard({ profile, platform }: Prof
           <VerifiedBadge verified={profile.is_verified} />
         </div>
         <div className="text-[13px] text-[var(--muted)] truncate">{profile.fullname}</div>
-        <div className="text-[12px] text-[var(--muted)]/70 mt-0.5 flex items-center gap-2">
-          <span>{formatCount(profile.followers, " followers")}</span>
+        <div className="text-[12px] text-[var(--muted)]/70 mt-0.5 flex items-center gap-3 min-w-0 overflow-hidden">
+          <div className="flex flex-col items-center leading-tight">
+            <span>{formatCount(profile.followers)}</span>
+            <span>followers</span>
+          </div>
           {profile.engagements != null && profile.engagements > 0 && (
             <>
-              <span className="opacity-40">·</span>
-              <span>{formatCount(profile.engagements, " engagements")}</span>
+              <span className="opacity-30">·</span>
+              <div className="flex flex-col items-center leading-tight">
+                <span>{formatCount(profile.engagements)}</span>
+                <span>engagements</span>
+              </div>
             </>
           )}
         </div>
       </div>
 
+      {/* Mobile: plus/check icon at top-right corner */}
       <button
-        className={`shrink-0 px-3 py-1.5 rounded-lg text-[12px] font-medium border transition-colors ${
+        aria-label={inList ? "Remove from list" : "Add to list"}
+        className={`sm:hidden absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full border text-[15px] font-black transition-colors ${
+          inList
+            ? "border-[var(--highlight)]/40 text-[var(--highlight)] bg-[var(--highlight-bg)]"
+            : "border-[var(--border)] text-[var(--muted)] bg-transparent"
+        }`}
+        onClick={(e) => {
+          e.stopPropagation();
+          inList ? remove(profile.user_id) : add(profile);
+        }}
+      >
+        {inList ? "✓" : "+"}
+      </button>
+
+      {/* Desktop: full text button */}
+      <button
+        className={`hidden sm:inline-flex shrink-0 px-3 py-1.5 rounded-lg text-[12px] font-medium border transition-colors ${
           inList
             ? "border-[var(--highlight)]/40 text-[var(--highlight)] bg-[var(--highlight-bg)]"
             : "border-[var(--border)] text-[var(--muted)] bg-transparent hover:border-[var(--text)]/30 hover:text-[var(--text)]"
