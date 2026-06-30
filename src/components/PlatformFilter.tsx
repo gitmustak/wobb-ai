@@ -3,8 +3,8 @@ import { PLATFORMS, getPlatformLabel } from "@/utils/dataHelpers";
 
 const SORT_OPTIONS: { value: SortKey; label: string }[] = [
   { value: "followers", label: "Followers" },
-  { value: "avg_likes", label: "Avg. Likes" },
-  { value: "avg_comments", label: "Avg. Comments" },
+  // { value: "avg_likes", label: "Avg. Likes" },       // TODO: re-enable when avg_likes data is available
+  // { value: "avg_comments", label: "Avg. Comments" }, // TODO: re-enable when avg_comments data is available
   { value: "engagement_rate", label: "Engagement Rate" },
 ];
 
