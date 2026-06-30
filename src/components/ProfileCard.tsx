@@ -44,8 +44,14 @@ export const ProfileCard = memo(function ProfileCard({ profile, platform }: Prof
           <VerifiedBadge verified={profile.is_verified} />
         </div>
         <div className="text-[13px] text-[var(--muted)] truncate">{profile.fullname}</div>
-        <div className="text-[12px] text-[var(--muted)]/70 mt-0.5">
-          {formatCount(profile.followers, " followers")}
+        <div className="text-[12px] text-[var(--muted)]/70 mt-0.5 flex items-center gap-2">
+          <span>{formatCount(profile.followers, " followers")}</span>
+          {profile.engagements != null && profile.engagements > 0 && (
+            <>
+              <span className="opacity-40">·</span>
+              <span>{formatCount(profile.engagements, " engagements")}</span>
+            </>
+          )}
         </div>
       </div>
 

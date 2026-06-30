@@ -15,8 +15,8 @@
   --danger: #8f2f33;
   --accent-bg: rgba(28, 27, 24, 0.07);
 
-  --sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --heading: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --sans: 'Prompt', sans-serif;
+  --heading: 'Prompt', sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 15px/1.6 var(--sans);
@@ -74,7 +74,7 @@ body {
   --code-bg: #1f1e1b;
   --accent: #f0ede6;
   --highlight: #447BBE;
-  --highlight-bg: rgba(68, 123, 190, 0.12);
+  --highlight-bg: rgba(68, 123, 190, 0.08);
   --danger: #c05a5e;
   --accent-bg: rgba(240, 237, 230, 0.08);
 }
