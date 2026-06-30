@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useListStore } from "@/store/useListStore";
 import { useThemeStore } from "@/store/useThemeStore";
@@ -24,6 +25,16 @@ export function Navbar() {
   const { pathname } = useLocation();
   const theme = useThemeStore((s) => s.theme);
   const toggle = useThemeStore((s) => s.toggle);
+  const [showError, setShowError] = useState(false);
+  const errorTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function handleMyListClick() {
+    if (count === 0) {
+      setShowError(true);
+      if (errorTimer.current) clearTimeout(errorTimer.current);
+      errorTimer.current = setTimeout(() => setShowError(false), 2500);
+    }
+  }
 
   return (
     <nav className="sticky top-0 z-40 flex items-center justify-between px-8 py-4 border-b border-[var(--border)] bg-[var(--surface)]/90 backdrop-blur-sm">
@@ -52,19 +63,28 @@ export function Navbar() {
           Find Influencers
         </Link>
 
-        <Link
-          to="/"
-          className={`flex items-center gap-2 text-[13px] font-medium transition-colors ${
-            count > 0 ? "text-[var(--text)]" : "text-[var(--muted)] hover:text-[var(--text)]"
-          }`}
-        >
-          My List
-          {count > 0 && (
-            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[var(--text)] text-[var(--surface)] text-[10px] font-bold leading-none">
-              {count}
-            </span>
+        <div className="relative">
+          <button
+            type="button"
+            onClick={handleMyListClick}
+            className={`flex items-center gap-2 text-[13px] font-medium transition-colors ${
+              count > 0 ? "text-[var(--text)]" : "text-[var(--muted)] hover:text-[var(--text)]"
+            }`}
+          >
+            My List
+            {count > 0 && (
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[var(--text)] text-[var(--surface)] text-[10px] font-bold leading-none">
+                {count}
+              </span>
+            )}
+          </button>
+
+          {showError && (
+            <div className="fixed right-6 top-16 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-red-600 shadow-md z-50">
+              No profiles added to your list yet.
+            </div>
           )}
-        </Link>
+        </div>
 
         <button
           type="button"
